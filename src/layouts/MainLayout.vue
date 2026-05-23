@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Header from '@/components/common/Header.vue';
 import Footer from '@/components/common/Footer.vue';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[Layout   ] MainLayout');
 </script>
 
 <template>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[View     ] NotFoundView');
 
 defineProps<{ 
   resourceName?: string;

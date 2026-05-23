@@ -7,6 +7,8 @@ import ServerErrorView from '@/views/error/ServerErrorView.vue';
 import { productService } from '@/services/productService';
 import type { ProductPageData } from '@/types/product';
 import {useAsync} from '@/composables/useAsync';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[View     ] ProductView');
 
 const props = defineProps<{ id: number }>();
 

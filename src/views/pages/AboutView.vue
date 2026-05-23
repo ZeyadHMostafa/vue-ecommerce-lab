@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import MainLayout from '@/layouts/MainLayout.vue';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[View     ] AboutView');
 
 interface AboutProps {
   personName?: string;

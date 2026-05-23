@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { MainProduct } from '@/types/product';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[Component] ProductDetails');
 
 const props = defineProps<{ product: MainProduct }>();
 const emit = defineEmits<{ (e: 'add-to-cart', id: number | string): void }>();

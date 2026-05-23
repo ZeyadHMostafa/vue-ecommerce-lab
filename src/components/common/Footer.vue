@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { FooterColumn } from '@/types/navigation';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[Component] Footer');
 
 withDefaults(defineProps<{
   shopName?: string;

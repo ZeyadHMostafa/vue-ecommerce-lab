@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
 import type { ProductMinified } from '@/types/product';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[Component] ProductCard');
 const props = defineProps<{ product: ProductMinified }>();
 
 const hasDiscount = computed(() => props.product.discount > 0);

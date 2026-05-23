@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[Component]CarouselBanner');
 withDefaults(defineProps<{
   images?: string[];
 }>(), {

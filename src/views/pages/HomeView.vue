@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import MainLayout from '@/layouts/MainLayout.vue';
 import CarouselBanner from '@/components/common/CarouselBanner.vue';
 import ProductCard from '@/components/feature/product/ProductCard.vue';
 import NotFoundView from '@/views/error/NotFoundView.vue';
@@ -8,6 +7,8 @@ import ServerErrorView from '@/views/error/ServerErrorView.vue';
 import { productService } from '@/services/productService';
 import { useAsync } from '@/composables/useAsync';
 import type { ProductMinified } from '@/types/product';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[View     ] HomeView');
 
 const {
   data: featuredProducts,

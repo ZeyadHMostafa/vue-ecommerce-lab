@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[View     ] ServerErrorView');
+
 defineProps<{
   errorCode?: string | number;
   message?: string;

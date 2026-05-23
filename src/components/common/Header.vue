@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import type { MenuItem, NavigationDropdown } from '@/types/navigation';
+import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+useLifecycleLogger('[Component] Header');
 
 // Type predicate function to help TypeScript infer dropdown nodes in the template safely
 const isDropdown = (item: MenuItem): item is NavigationDropdown => {
@@ -43,7 +45,7 @@ withDefaults(defineProps<{
           <!-- Dropdown Option -->
           <details v-if="isDropdown(item)">
             <summary class="cursor-pointer">{{ item.name }}</summary>
-            <ul class="p-2 bg-base-100 rounded-box shadow min-w-[150px]">
+            <ul class="p-2 bg-base-100 rounded-box shadow min-w-[150px] z-10">
               <!-- add transparent border -->
               <li v-for="child in item.children" :key="child.name">
                 <RouterLink :to="child.path">{{ child.name }}</RouterLink>
