@@ -8,12 +8,17 @@ interface AboutProps {
   organizationName?: string;
   description?: string;
 }
-
 withDefaults(defineProps<AboutProps>(), {
-  personName: 'Alex Mercer',
-  courseName: 'Advanced Web Architecture',
-  organizationName: 'Tech Academy Labs',
-  description: 'Building modern, type-safe single page applications using Vue 3, TypeScript, and semantic utility frameworks like daisyUI.'
+  personName: 'Zeyad Hesham',
+  courseName: 'Frontend Design with Vue 3',
+  organizationName: 'Information Technology Institute (ITI)',
+  description: `This Store front is made as a part of the course requirements
+	 for the Frontend Design with Vue 3 course at ITI.
+	 It is a simple e-commerce application that allows users to browse products,
+	 add them to their cart, and proceed to checkout.
+	 The application is built using Vue 3 and Tailwind CSS,
+	 and it demonstrates various features of Vue such as components,
+	 props, and lifecycle hooks.`
 });
 </script>
 
