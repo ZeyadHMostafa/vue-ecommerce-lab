@@ -6,6 +6,7 @@ export interface ProductItem {
   badge: string | null;
   price: number;
   discount: number;
+  stock: number;
   tags: string[];
   relatedIds: string[];
 }

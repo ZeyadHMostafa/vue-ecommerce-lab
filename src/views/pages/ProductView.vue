@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { watch, onMounted, onUnmounted, nextTick } from 'vue';
-import MainLayout from '@/layouts/MainLayout.vue';
 import ProductDetailsSection from '@/components/feature/product/ProductDetails.vue';
 import RelatedProductCard from '@/components/feature/product/ProductCard.vue';
 import NotFoundView from '@/views/error/NotFoundView.vue';
@@ -36,8 +35,16 @@ onMounted(() => {
   fetchProductData(props.id);
 });
 
-const onAddToCart = (id: number) => {
-  console.log(`Product added to cart context: ${id}`);
+const onAddToCart = async (id: string | number) => {
+  try {
+    const response = await productService.decrementStock(id);
+    if (response.status === 200 && response.data?.success) {
+      // Re-run your useAsync execute function to update the productData ref in place
+      fetchProductData(props.id);
+    }
+  } catch (error) {
+    console.error("Failed to update stock:", error);
+  }
 };
 
 const handleRetry = () => {

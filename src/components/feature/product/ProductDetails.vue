@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { MainProduct } from '@/types/product';
-const props = defineProps<{ product: MainProduct }>();
 
-const productBadgeStyles = new Map([
-  ['limited offer', ['badge-primary']],
-  ['new', ['badge-accent']]
-]);
-const emit = defineEmits<{ (e: 'add-to-cart', id: number): void }>();
+const props = defineProps<{ product: MainProduct }>();
+const emit = defineEmits<{ (e: 'add-to-cart', id: number | string): void }>();
 
 // Check if a discount percentage actually exists and is greater than 0
 const hasDiscount = computed(() => props.product.discount > 0);
@@ -19,14 +15,24 @@ const discountedPrice = computed(() => {
   return Number((props.product.price - saving).toFixed(2));
 });
 
-const productBadgeStyle = computed(() => {
-  if (!props.product.badge) return [];
-  const badge = props.product.badge.toLowerCase();
-  return productBadgeStyles.get(badge) || ['badge-secondary'];
+// Dynamic badge calculator based on current item stock quantity
+const stockBadge = computed(() => {
+  const stock = props.product.stock;
+
+  if (stock <= 0) {
+    return { text: 'Out of Stock', class: 'badge-error text-white' };
+  }
+  if (stock <= 3) {
+    return { text: `Critical: Only ${stock} Left`, class: 'badge-error text-white animate-pulse' };
+  }
+  if (stock <= 10) {
+    return { text: `Only ${stock} Left`, class: 'badge-warning text-warning-content' };
+  }
+  return { text: 'Available', class: 'badge-success text-white' };
 });
 
 const addToCart = () => {
-  if (typeof props.product.id === 'number') {
+  if (props.product.stock > 0) {
     emit('add-to-cart', props.product.id);
   }
 };
@@ -36,26 +42,26 @@ const addToCart = () => {
   <div class="flex flex-col md:flex-row gap-6">
     <!-- Product Image -->
     <div class="flex-1">
-      <img :src="product.image" :alt="product.name" class="rounded-box w-full object-cover" />
+      <img :src="product.image" :alt="product.name" class="rounded-box w-full object-cover max-h-[450px]" />
     </div>
 
     <!-- Product Info (col layout) -->
     <div class="flex-1 flex flex-col gap-4">
-      <!-- Title & Badge -->
+      <!-- Title & Stock Status Badge -->
       <div>
         <h1 class="text-3xl font-bold">{{ product.name }}</h1>
-        <div v-if="product.badge" :class="['badge', 'mt-2'].concat(productBadgeStyle)">
-          {{ product.badge }}
+        <div :class="['badge mt-2 font-medium py-3 px-4', stockBadge.class]">
+          {{ stockBadge.text }}
         </div>
       </div>
 
       <!-- Description Section -->
       <div>
         <h2 class="text-sm font-semibold text-opacity-50">Description</h2>
-        <p>{{ product.description }}</p>
+        <p class="text-base-content/80 mt-1">{{ product.description }}</p>
       </div>
 
-      <!-- Price / Discount Logic using computed variables -->
+      <!-- Price / Discount Logic -->
       <div class="text-xl font-bold">
         <template v-if="hasDiscount">
           <span class="text-primary">${{ discountedPrice }}</span>
@@ -70,15 +76,19 @@ const addToCart = () => {
       <div v-if="product.tags?.length">
         <h2 class="text-sm font-semibold text-opacity-50 mb-2">Tags</h2>
         <div class="grid grid-cols-3 gap-2">
-          <span v-for="tag in product.tags" :key="tag" class="badge badge-outline w-full">
+          <span v-for="tag in product.tags" :key="tag" class="badge badge-outline w-full py-3">
             {{ tag }}
           </span>
         </div>
       </div>
 
-      <!-- Add to Cart -->
-      <button @click="addToCart" class="btn btn-primary w-full md:w-auto">
-        Add to Cart
+      <!-- Add to Cart / Availability Trigger -->
+      <button 
+        @click="addToCart" 
+        class="btn btn-primary w-full md:w-auto"
+        :disabled="product.stock <= 0"
+      >
+        {{ product.stock > 0 ? 'Add to Cart' : 'Sold Out' }}
       </button>
     </div>
   </div>

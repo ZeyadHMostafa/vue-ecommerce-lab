@@ -35,20 +35,40 @@ export const productService = {
   },
 
   async getFeaturedProducts(): Promise<ServiceResponse<ProductMinified[]>> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const featured = products.slice(0, 3).map(
-        ({ id, name, image, price, discount }) => ({
-        id, name, image, price, discount
-      }));
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const featured = products.slice(0, 3).map(
+          ({ id, name, image, price, discount }) => ({
+          id, name, image, price, discount
+        }));
 
-      resolve({
-        data: featured,
-        status: 200
-      });
-    }, randomInt(100, 400));
-  });
-}
+        resolve({
+          data: featured,
+          status: 200
+        });
+      }, randomInt(100, 400));
+    });
+  },
+
+  async decrementStock(id: number | string): Promise<ServiceResponse<{ success: boolean; newStock: number }>> {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        // Find the item inside our in-memory array copy
+        const product = products.find(p => String(p.id) === `prod-${id}` || String(p.id) === String(id));
+        
+        if (!product || product.stock <= 0) {
+          return resolve({ data: { success: false, newStock: 0 }, status: 400 });
+        }
+
+        product.stock -= 1;
+
+        resolve({
+          data: { success: true, newStock: product.stock },
+          status: 200
+        });
+      }, 150); // Fast response for localized actions
+    });
+  }
 };
 
 

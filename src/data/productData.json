@@ -7,6 +7,7 @@
     "badge": "NEW",
     "price": 250.00,
     "discount": 20,
+    "stock": 15,
     "tags": ["Audio", "Gadgets", "Workspace"],
     "relatedIds": ["102", "103", "104", "105"]
   },
@@ -18,6 +19,7 @@
     "badge": null,
     "price": 40.00,
     "discount": 0,
+    "stock": 25,
     "tags": ["Travel", "Protection"],
     "relatedIds": ["101"]
   },
@@ -29,6 +31,7 @@
     "badge": "LIMITED OFFER",
     "price": 50.00,
     "discount": 10,
+    "stock": 5,
     "tags": ["Workspace", "Accessories"],
     "relatedIds": ["101", "105"]
   },
@@ -40,6 +43,7 @@
     "badge": null,
     "price": 19.99,
     "discount": 15,
+    "stock": 7,
     "tags": ["Audio", "Cables"],
     "relatedIds": []
   },
@@ -51,6 +55,7 @@
     "badge": "HOT",
     "price": 120.00,
     "discount": 0,
+    "stock": 3,
     "tags": ["Workspace", "Gadgets"],
     "relatedIds": ["101", "103", "106"]
   },
@@ -62,6 +67,7 @@
     "badge": null,
     "price": 450.00,
     "discount": 5,
+    "stock": 0,
     "tags": ["Workspace", "Display"],
     "relatedIds": ["105"]
   }
