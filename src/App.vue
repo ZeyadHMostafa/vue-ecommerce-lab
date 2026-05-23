@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import MainLayout from '@/layouts/MainLayout.vue';
-import ProductDetailsPage from '@/pages/ProductDetailsPage.vue';
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <ProductDetailsPage />
+  <RouterView />
 </template>
 
 <style scoped></style>

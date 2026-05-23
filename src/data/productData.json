@@ -1,35 +1,68 @@
-{
-  "mainProduct": {
+[
+  {
     "id": "prod-101",
     "name": "Minimalist Wireless Headphones",
     "description": "High-fidelity audio with hybrid active noise cancellation...",
     "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
     "badge": "NEW",
     "price": 250.00,
-    "discount": 20, 
-    "tags": ["Audio", "Gadgets", "Workspace"]
+    "discount": 20,
+    "tags": ["Audio", "Gadgets", "Workspace"],
+    "relatedIds": ["prod-102", "prod-103", "prod-104", "prod-105"]
   },
-  "relatedProducts": [
-    {
-      "id": "prod-102",
-      "name": "Hard Shell Travel Case",
-      "price": 40.00,
-      "discount": 0,
-      "image": "https://images.unsplash.com/photo-1595246140625-573b715d11dc?w=400"
-    },
-    {
-      "id": "prod-103",
-      "name": "Aluminum Headphone Stand",
-      "price": 50.00,
-      "discount": 10,
-      "image": "https://images.unsplash.com/photo-1603481588273-2f908a9a7a1b?w=400"
-    },
-    {
-      "id": "prod-104",
-      "name": "Premium Audio Cable",
-      "price": 19.99,
-      "discount": 14.99,
-      "image": "https://images.unsplash.com/photo-1557063673-0493e05d49ef?w=400"
-    }
-  ]
-}
+  {
+    "id": "prod-102",
+    "name": "Hard Shell Travel Case",
+    "description": "Crush-proof and water-resistant protective case for over-ear headphones.",
+    "image": "https://images.unsplash.com/photo-1595246140625-573b715d11dc?w=600",
+    "badge": null,
+    "price": 40.00,
+    "discount": 0,
+    "tags": ["Travel", "Protection"],
+    "relatedIds": ["prod-101"]
+  },
+  {
+    "id": "prod-103",
+    "name": "Aluminum Headphone Stand",
+    "description": "Sleek desktop stand with a non-slip base to keep your workspace clean.",
+    "image": "https://images.unsplash.com/photo-1603481588273-2f908a9a7a1b?w=600",
+    "badge": "LIMITED OFFER",
+    "price": 50.00,
+    "discount": 10,
+    "tags": ["Workspace", "Accessories"],
+    "relatedIds": ["prod-101", "prod-105"]
+  },
+  {
+    "id": "prod-104",
+    "name": "Premium Audio Cable",
+    "description": "Braided auxiliary cable with gold-plated connectors for lossless audio.",
+    "image": "https://images.unsplash.com/photo-1595756630452-736bc8ef3693?w=600",
+    "badge": null,
+    "price": 19.99,
+    "discount": 15,
+    "tags": ["Audio", "Cables"],
+    "relatedIds": []
+  },
+  {
+    "id": "prod-105",
+    "name": "Ergonomic Mechanical Keyboard",
+    "description": "Hot-swappable mechanical keyboard featuring quiet switches and RGB lighting.",
+    "image": "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=600",
+    "badge": "HOT",
+    "price": 120.00,
+    "discount": 0,
+    "tags": ["Workspace", "Gadgets"],
+    "relatedIds": ["prod-101", "prod-103", "prod-106"]
+  },
+  {
+    "id": "prod-106",
+    "name": "Ultra-Wide Gaming Monitor",
+    "description": "34-inch curved display with a crisp 144Hz refresh rate for intense immersion.",
+    "image": "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=600",
+    "badge": null,
+    "price": 450.00,
+    "discount": 5,
+    "tags": ["Workspace", "Display"],
+    "relatedIds": ["prod-105"]
+  }
+]

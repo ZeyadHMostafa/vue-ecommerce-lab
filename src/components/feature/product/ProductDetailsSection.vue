@@ -1,18 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-
-interface MainProduct {
-  id: number | string;
-  name: string;
-  description: string;
-  image: string;
-  badge: string | null;
-  price: number;
-  discount: number; // Treated as a percentage now (e.g., 15 or 0)
-  tags: string[];
-}
-
+import type { MainProduct } from '@/types/product';
 const props = defineProps<{ product: MainProduct }>();
+
 const productBadgeStyles = new Map([
   ['limited offer', ['badge-primary']],
   ['new', ['badge-accent']]
