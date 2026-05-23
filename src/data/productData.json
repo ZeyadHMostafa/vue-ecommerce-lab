@@ -1,0 +1,35 @@
+{
+  "mainProduct": {
+    "id": "prod-101",
+    "name": "Minimalist Wireless Headphones",
+    "description": "High-fidelity audio with hybrid active noise cancellation...",
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
+    "badge": "NEW",
+    "price": 250.00,
+    "discount": 20, 
+    "tags": ["Audio", "Gadgets", "Workspace"]
+  },
+  "relatedProducts": [
+    {
+      "id": "prod-102",
+      "name": "Hard Shell Travel Case",
+      "price": 40.00,
+      "discount": 0,
+      "image": "https://images.unsplash.com/photo-1595246140625-573b715d11dc?w=400"
+    },
+    {
+      "id": "prod-103",
+      "name": "Aluminum Headphone Stand",
+      "price": 50.00,
+      "discount": 10,
+      "image": "https://images.unsplash.com/photo-1603481588273-2f908a9a7a1b?w=400"
+    },
+    {
+      "id": "prod-104",
+      "name": "Premium Audio Cable",
+      "price": 19.99,
+      "discount": 14.99,
+      "image": "https://images.unsplash.com/photo-1557063673-0493e05d49ef?w=400"
+    }
+  ]
+}
