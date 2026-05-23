@@ -12,7 +12,7 @@ import Footer from '@/components/common/Footer.vue';
 
     <!-- Dynamic Page Content -->
     <main class="flex-grow container mx-auto px-4 py-8 max-w-7xl">
-      <slot />
+      <router-view />
     </main>
 
     <!-- Global Footer -->

@@ -17,8 +17,8 @@ withDefaults(defineProps<{
     { 
       name: 'Products', 
       children: [
-        { name: 'All Products', path: '/products' },
-        { name: 'On Sale', path: '/sale' }
+        { name: 'Featured Item 101', path: '/product/101' },
+        { name: 'Featured Item 102', path: '/product/102' }
       ] 
     },
     { name: 'About', path: '/about' }
@@ -41,9 +41,10 @@ withDefaults(defineProps<{
         <li v-for="(item, index) in menuItems" :key="index">
           
           <!-- Dropdown Option -->
-          <details v-if="isDropdown(item)" class="dropdown dropdown-end">
+          <details v-if="isDropdown(item)">
             <summary class="cursor-pointer">{{ item.name }}</summary>
-            <ul class="p-2 bg-base-100 rounded-box z-[1] shadow min-w-[150px]">
+            <ul class="p-2 bg-base-100 rounded-box shadow min-w-[150px]">
+              <!-- add transparent border -->
               <li v-for="child in item.children" :key="child.name">
                 <RouterLink :to="child.path">{{ child.name }}</RouterLink>
               </li>

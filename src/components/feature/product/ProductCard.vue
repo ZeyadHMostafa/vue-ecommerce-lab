@@ -1,16 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { RouterLink } from 'vue-router';
-
-interface RelatedProduct {
-  id: number | string;
-  name: string;
-  price: number;
-  discount: number;
-  image: string;
-}
-
-const props = defineProps<{ product: RelatedProduct }>();
+import type { ProductMinified } from '@/types/product';
+const props = defineProps<{ product: ProductMinified }>();
 
 const hasDiscount = computed(() => props.product.discount > 0);
 
@@ -20,11 +12,7 @@ const discountedPrice = computed(() => {
   return Number((props.product.price - saving).toFixed(2));
 });
 
-// Extracts numeric digits from string ID format "prod-123" to match route definitions
-const numericId = computed(() => {
-  if (typeof props.product.id === 'number') return props.product.id;
-  return parseInt(props.product.id.replace(/\D/g, ''), 10);
-});
+const numericId = props.product.id;
 </script>
 
 <template>

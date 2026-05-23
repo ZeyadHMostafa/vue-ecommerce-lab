@@ -7,7 +7,7 @@ const productBadgeStyles = new Map([
   ['limited offer', ['badge-primary']],
   ['new', ['badge-accent']]
 ]);
-const emit = defineEmits<{ (e: 'add-to-cart', id: number | string): void }>();
+const emit = defineEmits<{ (e: 'add-to-cart', id: number): void }>();
 
 // Check if a discount percentage actually exists and is greater than 0
 const hasDiscount = computed(() => props.product.discount > 0);
@@ -26,7 +26,9 @@ const productBadgeStyle = computed(() => {
 });
 
 const addToCart = () => {
-  emit('add-to-cart', props.product.id);
+  if (typeof props.product.id === 'number') {
+    emit('add-to-cart', props.product.id);
+  }
 };
 </script>
 

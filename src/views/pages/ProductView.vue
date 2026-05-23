@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { watch, onMounted, onUnmounted, nextTick } from 'vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import ProductDetailsSection from '@/components/feature/product/ProductDetailsSection.vue';
-import RelatedProductCard from '@/components/feature/product/RelatedProductCard.vue';
+import ProductDetailsSection from '@/components/feature/product/ProductDetails.vue';
+import RelatedProductCard from '@/components/feature/product/ProductCard.vue';
 import NotFoundView from '@/views/error/NotFoundView.vue';
 import ServerErrorView from '@/views/error/ServerErrorView.vue';
 import { productService } from '@/services/productService';
@@ -36,7 +36,7 @@ onMounted(() => {
   fetchProductData(props.id);
 });
 
-const onAddToCart = (id: string | number) => {
+const onAddToCart = (id: number) => {
   console.log(`Product added to cart context: ${id}`);
 };
 
@@ -46,48 +46,46 @@ const handleRetry = () => {
 </script>
 
 <template>
-  <MainLayout>
-    
-    <!-- 1. LOADING LAYER -->
-    <div v-if="isLoading" class="flex justify-center items-center min-h-[50vh]">
-      <span class="loading loading-ring loading-lg text-primary"></span>
-    </div>
+  
+  <!-- 1. LOADING LAYER -->
+  <div v-if="isLoading" class="flex justify-center items-center min-h-[50vh]">
+    <span class="loading loading-ring loading-lg text-primary"></span>
+  </div>
 
-    <!-- 2. ERROR LAYERS -->
-    <template v-else-if="errorStatus">
-      <NotFoundView 
-        v-if="errorStatus === 404" 
-        resource-name="product" 
-        :error-code="404" 
-      />
-      <ServerErrorView 
-        v-else 
-        :error-code="errorStatus" 
-        message="An unexpected server condition occurred while fetching this product." 
-        @retry="handleRetry" 
-      />
-    </template>
+  <!-- 2. ERROR LAYERS -->
+  <template v-else-if="errorStatus">
+    <NotFoundView 
+      v-if="errorStatus === 404" 
+      resource-name="product" 
+      :error-code="404" 
+    />
+    <ServerErrorView 
+      v-else 
+      :error-code="errorStatus" 
+      message="An unexpected server condition occurred while fetching this product." 
+      @retry="handleRetry" 
+    />
+  </template>
 
-    <!-- 3. SUCCESS CONTENT LAYER -->
-    <div v-else-if="productData" class="flex flex-col gap-12">
-      <section>
-        <ProductDetailsSection 
-          :product="productData.mainProduct" 
-          @add-to-cart="onAddToCart"
+  <!-- 3. SUCCESS CONTENT LAYER -->
+  <div v-else-if="productData" class="flex flex-col gap-12">
+    <section>
+      <ProductDetailsSection 
+        :product="productData.mainProduct" 
+        @add-to-cart="onAddToCart"
+      />
+    </section>
+
+    <section v-if="productData.relatedProducts.length > 0" class="flex flex-col gap-4">
+      <h3 class="text-xl font-bold">Related Products:</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <RelatedProductCard 
+          v-for="item in productData.relatedProducts" 
+          :key="item.id" 
+          :product="item"
         />
-      </section>
+      </div>
+    </section>
+  </div>
 
-      <section v-if="productData.relatedProducts.length > 0" class="flex flex-col gap-4">
-        <h3 class="text-xl font-bold">Related Products:</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          <RelatedProductCard 
-            v-for="item in productData.relatedProducts" 
-            :key="item.id" 
-            :product="item"
-          />
-        </div>
-      </section>
-    </div>
-
-  </MainLayout>
 </template>

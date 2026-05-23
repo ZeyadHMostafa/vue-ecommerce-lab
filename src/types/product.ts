@@ -12,9 +12,9 @@ export interface ProductItem {
 
 // These remain identical to keep your UI components happy
 export interface MainProduct extends Omit<ProductItem, 'relatedIds'> {}
-export interface RelatedProduct extends Pick<ProductItem, 'id' | 'name' | 'image' | 'price' | 'discount'> {}
+export interface ProductMinified extends Pick<ProductItem, 'id' | 'name' | 'image' | 'price' | 'discount'> {}
 
 export interface ProductPageData {
   mainProduct: MainProduct;
-  relatedProducts: RelatedProduct[];
+  relatedProducts: ProductMinified[];
 }
