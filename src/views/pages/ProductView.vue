@@ -1,23 +1,47 @@
 <script setup lang="ts">
-import { watch, onMounted, onUnmounted, nextTick } from 'vue';
+import { watch, onMounted, nextTick, computed } from 'vue';
 import ProductDetailsSection from '@/components/feature/product/ProductDetails.vue';
 import RelatedProductCard from '@/components/feature/product/ProductCard.vue';
 import NotFoundView from '@/views/error/NotFoundView.vue';
 import ServerErrorView from '@/views/error/ServerErrorView.vue';
-import { productService } from '@/services/productService';
+import { useProductStore } from '@/stores/productStore';
+import { useCartStore } from '@/stores/cartStore';
 import type { ProductPageData } from '@/types/product';
-import {useAsync} from '@/composables/useAsync';
-import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+import { useAsync } from '@/composables/useAsync';
+import { useLifecycleLogger } from '@/composables/useLifeCycleLogger';
+
 useLifecycleLogger('[View     ] ProductView');
 
-const props = defineProps<{ id: number }>();
+const productStore = useProductStore();
+const cartStore = useCartStore();
+
+const props = defineProps<{ id: number | string }>();
 
 const { 
-  data: productData, 
+  data: fetchedProductData, 
   isLoading, 
   errorStatus, 
   execute: fetchProductData 
-} = useAsync<ProductPageData>(productService.getProductDetails);
+} = useAsync<ProductPageData>(productStore.fetchProductPage);
+
+const productData = computed(() => {
+  if (!fetchedProductData.value) return null;
+
+  // Clone top-level structure to safely modify properties for the template
+  const data = { ...fetchedProductData.value };
+  const mainProductId = String(data.mainProduct.id);
+
+  // Look up cart quantity for the main product
+  const cartQuantity = cartStore.getCartItemQuantity(mainProductId);
+
+  // Apply visual-only mutation to stock count
+  data.mainProduct = {
+    ...data.mainProduct,
+    stock: Math.max(0, data.mainProduct.stock - cartQuantity)
+  };
+
+  return data;
+});
 
 watch(
   () => props.id,
@@ -26,9 +50,6 @@ watch(
       await fetchProductData(newId);
       await nextTick();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      // if waiting is too much I could have used: behavior: 'auto'
-      // but I like the smooth scroll effect
-
     }
   }
 );
@@ -37,15 +58,16 @@ onMounted(() => {
   fetchProductData(props.id);
 });
 
-const onAddToCart = async (id: string | number) => {
-  try {
-    const response = await productService.decrementStock(id);
-    if (response.status === 200 && response.data?.success) {
-      // Re-run your useAsync execute function to update the productData ref in place
-      fetchProductData(props.id);
-    }
-  } catch (error) {
-    console.error("Failed to update stock:", error);
+const onAddToCart = (id: string | number) => {
+  const stringId = String(id);
+  if (productData.value?.mainProduct.id !== stringId) {
+    console.warn(`Attempted to add product with id ${stringId} to cart, but it does not match the main product on this page.`);
+    return;
+  } else if (productData.value.mainProduct.stock <= 0) {
+    console.warn(`Attempted to add product with id ${stringId} to cart, but it is out of stock.`);
+    return;
+  } else {
+    cartStore.addToCart(stringId);
   }
 };
 
@@ -56,12 +78,10 @@ const handleRetry = () => {
 
 <template>
   
-  <!-- 1. LOADING LAYER -->
   <div v-if="isLoading" class="flex justify-center items-center min-h-[50vh]">
     <span class="loading loading-ring loading-lg text-primary"></span>
   </div>
 
-  <!-- 2. ERROR LAYERS -->
   <template v-else-if="errorStatus">
     <NotFoundView 
       v-if="errorStatus === 404" 
@@ -76,7 +96,6 @@ const handleRetry = () => {
     />
   </template>
 
-  <!-- 3. SUCCESS CONTENT LAYER -->
   <div v-else-if="productData" class="flex flex-col gap-12">
     <section>
       <ProductDetailsSection 

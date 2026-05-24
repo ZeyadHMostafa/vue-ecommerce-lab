@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
 import type { MenuItem, NavigationDropdown } from '@/types/navigation';
-import {useLifecycleLogger} from '@/composables/useLifeCycleLogger';
+import { useCartStore } from '@/stores/cartStore';
+import { useLifecycleLogger } from '@/composables/useLifeCycleLogger';
+
 useLifecycleLogger('[Component] Header');
 
-// Type predicate function to help TypeScript infer dropdown nodes in the template safely
+const cartStore = useCartStore();
+
 const isDropdown = (item: MenuItem): item is NavigationDropdown => {
   return 'children' in item;
 };
@@ -12,8 +15,10 @@ const isDropdown = (item: MenuItem): item is NavigationDropdown => {
 withDefaults(defineProps<{
   shopName?: string;
   menuItems?: MenuItem[];
+  cartURL?: string;
 }>(), {
   shopName: 'ShopTitle',
+  cartURL: '/cart',
   menuItems: () => [
     { name: 'Home', path: '/' },
     { 
@@ -30,32 +35,36 @@ withDefaults(defineProps<{
 
 <template>
   <header class="navbar bg-base-100 shadow">
-    <!-- Left: Brand -->
     <div class="flex-grow">
       <RouterLink to="/" class="btn btn-ghost text-xl font-bold">
         {{ shopName }}
       </RouterLink>
     </div>
 
-    <!-- Right: Menu Links -->
     <div class="flex-none">
-      <ul class="menu menu-horizontal px-1 gap-1">
+      <ul class="menu menu-horizontal px-1 gap-1 items-center">
         <li v-for="(item, index) in menuItems" :key="index">
           
-          <!-- Dropdown Option -->
           <details v-if="isDropdown(item)">
             <summary class="cursor-pointer">{{ item.name }}</summary>
             <ul class="p-2 bg-base-100 rounded-box shadow min-w-[150px] z-10">
-              <!-- add transparent border -->
               <li v-for="child in item.children" :key="child.name">
                 <RouterLink :to="child.path">{{ child.name }}</RouterLink>
               </li>
             </ul>
           </details>
 
-          <!-- Singular Link Option -->
           <RouterLink v-else :to="item.path">{{ item.name }}</RouterLink>
 
+        </li>
+
+        <li v-if="cartURL">
+          <RouterLink :to="cartURL" class="flex gap-1 items-center">
+            Cart
+            <span v-if="cartStore.totalItems > 0" class="badge badge-primary font-mono text-xs">
+              {{ cartStore.totalItems }}
+            </span>
+          </RouterLink>
         </li>
       </ul>
     </div>

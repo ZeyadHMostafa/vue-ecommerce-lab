@@ -19,3 +19,16 @@ export interface ProductPageData {
   mainProduct: MainProduct;
   relatedProducts: ProductMinified[];
 }
+
+export interface CachedProduct {
+  data: ProductItem;
+  retrievedAt: number;
+}
+
+export const minifyProduct = (prod: ProductItem): ProductMinified => ({
+          id: prod.id,
+          name: prod.name,
+          image: prod.image,
+          price: prod.price,
+          discount: prod.discount
+        })

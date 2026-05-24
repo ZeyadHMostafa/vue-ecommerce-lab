@@ -4,6 +4,7 @@ import AboutView from '@/views/pages/AboutView.vue';
 import ProductView from '@/views/pages/ProductView.vue';
 import NotFoundView from '@/views/error/NotFoundView.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
+import CartView from '@/views/pages/CartView.vue';
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
         path: '/about',
         name: 'About',
         component: AboutView
+      },
+      {
+        path: '/cart',
+        name: 'Cart',
+        component: CartView
       },
       {
         path: '/product/:id(\\d+)',
